@@ -1,0 +1,6 @@
+C:\Users\jaffa\source\repos\CapstoneMainDirectory\BCUnitEngine\bin\Debug\BCUnitEngine.dll
+C:\Users\jaffa\source\repos\CapstoneMainDirectory\BCUnitEngine\bin\Debug\BCUnitEngine.pdb
+C:\Users\jaffa\source\repos\CapstoneMainDirectory\BCUnitEngine\obj\Debug\BCUnitEngine.csproj.AssemblyReference.cache
+C:\Users\jaffa\source\repos\CapstoneMainDirectory\BCUnitEngine\obj\Debug\BCUnitEngine.csproj.CoreCompileInputs.cache
+C:\Users\jaffa\source\repos\CapstoneMainDirectory\BCUnitEngine\obj\Debug\BCUnitEngine.dll
+C:\Users\jaffa\source\repos\CapstoneMainDirectory\BCUnitEngine\obj\Debug\BCUnitEngine.pdb
