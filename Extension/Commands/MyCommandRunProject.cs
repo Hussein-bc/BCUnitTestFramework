@@ -14,55 +14,70 @@ namespace Extension
     [Command(PackageIds.MyCommandRunProject)]
     internal sealed class MyCommandRunProject : BaseCommand<MyCommandRunProject>
     {
-        protected  async override Task ExecuteAsync(OleMenuCmdEventArgs e)
+        public string currentProjectPath;
+        protected async override Task ExecuteAsync(OleMenuCmdEventArgs e)
         {
 
-            // questions to ask:
-            // why catch doesn't catch the exception? if the user doesn't select a project and the solution is highlighted
-            try {
+
+
+            try
+            {
                 await VS.MessageBox.ShowAsync("Current Project");
-                
+
                 // This will get the active project ( highlighted with a mouse click)
                 Project activeProject = await VS.Solutions.GetActiveProjectAsync();
+                string DllNameToEngine = activeProject.Name + ".dll";
 
+                DirectoryInfo info = Directory.GetParent(activeProject.FullPath);
+                Directory.SetCurrentDirectory(info.ToString());
 
+                var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dll", SearchOption.AllDirectories);
+                foreach (var item in files)
+                {
+
+                    if (item.Contains(DllNameToEngine))
+                    {
+
+                        currentProjectPath = item.ToString();
+
+                    }
+                }
+                // await VS.MessageBox.ShowAsync("currentProjectPath   " + currentProjectPath);
                 OutputWindowPane pane = null;
 
 
 
-                if (activeProject != null) {
+                if (activeProject != null)
+                {
 
                     pane = await VS.Windows.CreateOutputWindowPaneAsync(activeProject.Name.ToString());
 
 
-                    // this will return the parent directory of a selected project 
-                    DirectoryInfo info = Directory.GetParent(activeProject.FullPath);
-                    string currentProjectPath = info.ToString();
-
-                    //await VS.MessageBox.ShowAsync("currentProjectPath: " + currentProjectPath);
-
-
                     Engine engine = new Engine(currentProjectPath);
-                    //engine.ShowPath();
+
 
 
                     var list = engine.GetInvokedMethodNames();
-                    foreach (var item in list) {
+                    foreach (var item in list)
+                    {
                         await pane.WriteLineAsync(item);
                     }
-                    
 
 
-                } else {
 
-                    
+                }
+                else
+                {
+
+
                     await VS.MessageBox.ShowErrorAsync("select a project");
                     pane = await VS.Windows.CreateOutputWindowPaneAsync("No project is selected");
-                    await pane.WriteLineAsync("stupid");
                 }
 
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 await VS.MessageBox.ShowAsync(ex.Message.ToString());
             }
         }
